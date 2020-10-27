@@ -39,7 +39,7 @@ def printPlayer2():
     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
     """)
 
-def printPlayer12():
+def printPlayerDraw():
     print("""
     +-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+
       _    _                  _            _     _          _            _
@@ -126,11 +126,11 @@ def wipe(win):
     printField(width, height)
 
     if(win == 0):
-        printPlayer2()
-    elif(win == 1):
         printPlayer1()
+    elif(win == 1):
+        printPlayer2()
     else:
-        printPlayer12()
+        printPlayerDraw()
 
     width = 0
     height = 0
@@ -215,6 +215,7 @@ def check(player1Turn, width, height, field):
         if(streak >= 4):
             wipe(win)
 
+    streak = 0
     #Check horizontal
     for y in range(height):
         for x in range(width):
@@ -225,6 +226,66 @@ def check(player1Turn, width, height, field):
         #If 4 in horizontal row, win
         if(streak >= 4):
             wipe(win)
+
+    streak = 0
+    #Check top left to bottom right
+    for x in range(width):
+        xx = x
+        yy = 0
+        streak = 0
+        while(xx < width and yy < height):
+            if(field[xx][yy] == int(player1Turn)):
+                streak += 1
+                if(streak >= 4):
+                    wipe(win)
+            else:
+                streak = 0
+            xx += 1
+            yy += 1
+
+    for y in range(height):
+        xx = 0
+        yy = y
+        streak = 0
+        while(xx < width and yy < height):
+            if(field[xx][yy] == int(player1Turn)):
+                streak += 1
+                if(streak >= 4):
+                    wipe(win)
+            else:
+                streak = 0
+            xx += 1
+            yy += 1
+
+    streak = 0
+    #Check top right to bottom left
+    for x in range(width):
+        xx = x
+        yy = 0
+        streak = 0
+        while(xx > -1 and yy < height):
+            if(field[xx][yy] == int(player1Turn)):
+                streak += 1
+                if(streak >= 4):
+                    wipe(win)
+            else:
+                streak = 0
+            xx -= 1
+            yy += 1
+
+    for y in range(height):
+        xx = width-1
+        yy = y
+        streak = 0
+        while(xx > -1 and yy < height):
+            if(field[xx][yy] == int(player1Turn)):
+                streak += 1
+                if(streak >= 4):
+                    wipe(win)
+            else:
+                streak = 0
+            xx -= 1
+            yy += 1
 
 #Main game loop
 while(True):
